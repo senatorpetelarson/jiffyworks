@@ -270,8 +270,8 @@ $ ->
 
 # Utility Framework Functions
 window.debug = (message,level = "debug") ->
-  if window.console? and console.log? and window.debug_enabled
-    try
+  try
+    if window.debug_enabled? and window.console? and console.log?
       switch level
         when "warn"
           level = 2
@@ -282,8 +282,8 @@ window.debug = (message,level = "debug") ->
         else
           level = 1
           console.log message
-    catch err
-      # console must not be available
+  catch err
+    # console must not be available
 
 window.warn = (message) ->
   debug(message,'warn')

@@ -270,8 +270,8 @@
     if (level == null) {
       level = "debug";
     }
-    if ((window.console != null) && (console.log != null) && window.debug_enabled) {
-      try {
+    try {
+      if ((window.debug_enabled != null) && (window.console != null) && (console.log != null)) {
         switch (level) {
           case "warn":
             level = 2;
@@ -283,9 +283,9 @@
             level = 1;
             return console.log(message);
         }
-      } catch (err) {
-
       }
+    } catch (err) {
+
     }
   };
 

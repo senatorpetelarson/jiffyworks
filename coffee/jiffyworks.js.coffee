@@ -14,24 +14,6 @@ window.defaults =
 
 $ = jQuery
 
-window.when_i_hear = (event_name,listen_obj,handler) ->
-  listen_obj.on(event_name,handler)
-
-window.when_i_feel = (event_name,listen_obj,handler) ->
-  window.when_i_hear(event_name,listen_obj,handler)
-
-window.when_i = (event_name,listen_obj,handler) ->
-  window.when_i_hear(event_name,listen_obj,handler)
-
-window.when_there_is = (event_name,handler) ->
-  jQuery.Window.on(event_name,handler)
-
-window.when_someone_has = (listen_obj,event_name,handler) ->
-  listen_obj(event_name,handler)
-
-window.when_someone = (listenObj,event_name,handler) ->
-  window.when_someone_has(listenObj,event_name,handler)
-
 # Utility Framework Functions
 window.debug = (message,level = "debug") ->
   if window.debug_enabled and console? and console.log?
@@ -66,17 +48,17 @@ window.puts = (message,level = "debug") ->
 window.register = (eventName,namespace,handler,listenObj = jQuery(window)) ->
   listenObj.on(eventName+'.'+namespace,handler)
 
-window.listen_to = (eventName,namespace,handler,listenObj = jQuery(window)) ->
-  listenObj.on(eventName+'.'+namespace,handler)
-
 window.destroy = (namespace,destroyObj = jQuery.Window) ->
   destroyObj.off('.'+namespace)
   
 window.trigger = (eventName,data,triggerObj = jQuery.Window) ->
-  if data? then triggerObj.triggerHandler(eventName, data) else triggerObj.triggerHandler(eventName)
+  window.announce eventName, data, triggerObj
 
 window.announce = (eventName,data,triggerObj = jQuery.Window) ->
   if data? then triggerObj.triggerHandler(eventName, data) else triggerObj.triggerHandler(eventName)
+
+window.respond_to = (event_name,handler,listen_obj = jQuery.Window) ->
+    listen_obj.on(event_name,handler)
 
 window.px = (css_pixel_value) ->
   try 
@@ -224,9 +206,8 @@ $ ->
       catch err
         debug "try catch error"
         alert("couldn't get window width")
-        alert($.Window)
       finally
-        debug "finally portion"
+        debug("")
       
       $.Window.trigger(_a.RESIZE)
       clearTimeout(resizeTimer)
@@ -247,12 +228,6 @@ $ ->
     if data? then $(this).triggerHandler(event_name, data) else $(this).triggerHandler(event_name)
 
   $.fn.respond_to = (event_name,handler) ->
-    $(this).on(event_name,handler)
-
-  $.fn.hear = (event_name,handler) ->
-    $(this).on(event_name,handler)
-
-  $.fn.hears = (event_name,handler) ->
     $(this).on(event_name,handler)
 
   $.fn.FormWithRequiredFields = (objectName,@settings) ->

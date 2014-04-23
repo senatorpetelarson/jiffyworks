@@ -97,15 +97,16 @@ Included in this repository is the core framework file: jiffyworks.coffee.js. YO
 
 ##Your site.coffee file
 Your site.coffee should have the following at the beginning of the file:
-        &#35Set this to false for production
+
+        &#35;Set this to false for production
         window.debug_enabled = true
 
         $.CustomEvents =
-	    CUSTOM_EVENT_NAME: "custom_event_string"
+	  CUSTOM_EVENT_NAME: "custom_event_string"
 
 Make sure to have a Site object with the following:
         $.fn.Site = (objectName,@settings) ->
-		$parent = $(this)
+	        $parent = $(this)
 
 		if not config? then config = {}
 		config.myName = objectName
@@ -125,7 +126,7 @@ Make sure to have a Site object with the following:
                                 _initialize_plugins()
 
                         _initialize_plugins = () ->
-                                Initialize external jquery plugins here
+                                &#35;Initialize external jquery plugins here
 
                         _init()
 
